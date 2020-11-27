@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -12,6 +12,10 @@ function App({}: AppProps) {
     const timer = setTimeout(() => setCount(count + 1), 1000);
     return () => clearTimeout(timer);
   }, [count, setCount]);
+
+  const Info = React.lazy(() => import('./Info'));
+
+  // Show a spinner while the profile is loading
   // Return the App component.
   return (
     <div className="App">
@@ -31,6 +35,10 @@ function App({}: AppProps) {
             rel="noopener noreferrer"
           >
             Learn React
+
+            <Suspense fallback={<div>Loading...</div>}>
+              <Info />
+            </Suspense>
           </a>
         </p>
       </header>
